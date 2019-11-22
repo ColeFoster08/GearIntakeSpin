@@ -61,6 +61,10 @@ public class Robot extends TimedRobot {
       speed = accelerate.getAccel(0.7);
       System.out.println(speed);
     }
+    else if (joy.getRawButton(2))
+    {
+      speed = accelerate.getAccel(-0.7);
+    }
     else
     {
       speed = accelerate.getAccel(0);
