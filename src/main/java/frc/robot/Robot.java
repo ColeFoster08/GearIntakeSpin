@@ -15,7 +15,8 @@ public class Robot extends TimedRobot {
   TalonSRX motor1;
   TalonSRX motor2;
   Joystick joy = new Joystick(0);
-  SmoothAcceleration loopObj = new SmoothAcceleration(.01);
+  //SmoothAcceleration loopObj = new SmoothAcceleration(.01);
+  Acceleration accelerate = new Acceleration();
   double speed;
   //long pastTime = System.currentTimeMillis();
   Encoder encoder= new Encoder(3, 4);
@@ -33,11 +34,19 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    pid.init(encoder.get());
   }
 
   @Override
   public void autonomousPeriodic() {
+  }
+
+  @Override
+  public void teleopInit() {
+    pid.init(encoder.get());
+  }
+
+  @Override
+  public void teleopPeriodic() {
     if (joy.getRawButton(3))
     {
       motor1.set(ControlMode.PercentOutput, pid.move(45, encoder.get()));
@@ -49,18 +58,14 @@ public class Robot extends TimedRobot {
 
     if (joy.getRawButton(1))
     {
-      speed = loopObj.loop(0.7);
+      speed = accelerate.getAccel(0.7);
+      System.out.println(speed);
     }
     else
     {
-      speed = loopObj.loop(0);
+      speed = accelerate.getAccel(0);
     }
     motor2.set(ControlMode.PercentOutput, speed); 
-  }
-
-  @Override
-  public void teleopPeriodic() {
-    
   }
 
   @Override
