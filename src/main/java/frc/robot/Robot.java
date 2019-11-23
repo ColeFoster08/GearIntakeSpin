@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.*;
  * project.
  */
 public class Robot extends TimedRobot {
+  Drivetrain drivetrain = new Drivetrain();
   TalonSRX motor1;
   TalonSRX motor2;
   Joystick joy = new Joystick(0);
@@ -70,6 +71,8 @@ public class Robot extends TimedRobot {
       speed = accelerate.getAccel(0);
     }
     motor2.set(ControlMode.PercentOutput, speed); 
+
+  drivetrain.arcadeDrive(joy.getRawAxis(1), joy.getRawAxis(5));
   }
 
   @Override
